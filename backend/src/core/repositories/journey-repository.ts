@@ -7,4 +7,5 @@ export interface JourneyRepositorySearchRequest {
 
 export interface JourneyRepository {
   find(filters: JourneyRepositorySearchRequest): Promise<Journey | null>;
+  create(journey: Journey): Promise<void>;
 }

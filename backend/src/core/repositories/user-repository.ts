@@ -7,4 +7,5 @@ export interface UserRepositorySearchRequest {
 
 export interface UserRepository {
   find(filters: UserRepositorySearchRequest): Promise<User | null>;
+  create(user: User): Promise<void>;
 }
