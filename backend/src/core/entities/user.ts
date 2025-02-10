@@ -13,6 +13,14 @@ export class User extends Entity<UserProps> {
     super(props);
   }
 
+  get first_name() {
+    return this.props.first_name;
+  }
+
+  get last_name() {
+    return this.props.last_name;
+  }
+
   get name() {
     return `${this.props.first_name} ${this.props.last_name}`;
   }

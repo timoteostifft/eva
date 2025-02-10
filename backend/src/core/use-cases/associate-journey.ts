@@ -8,6 +8,9 @@ import { UserJourneyRepository } from "@/core/repositories/user-journey-reposito
 
 // Entities
 import { UserJourney } from "@/core/entities/user-journey";
+import { UUID } from "@/core/entities/uuid";
+import { Journey } from "@/core/entities/journey";
+import { User } from "@/core/entities/user";
 
 interface AssociateJourneyRequest {
   journey_id: string;
@@ -38,8 +41,8 @@ export class AssociateJourney {
     }
 
     const userJourney = UserJourney.create({
-      user_id: user.id.value,
-      journey_id: journey.id.value,
+      user_id: new UUID(user.id.value),
+      journey_id: new UUID(journey.id.value),
       start,
     });
 

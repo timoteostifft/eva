@@ -5,7 +5,7 @@ import Joi from "joi";
 // Errors
 import { BaseError } from "@/core/errors/base-error";
 
-// Errors Mapper
+// Errors
 import { mapper } from "@/infra/http/errors/mapper";
 
 export async function handler(

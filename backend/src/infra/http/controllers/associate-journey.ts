@@ -31,7 +31,7 @@ export async function associateJourney(
 
     await associateJourney.execute(value);
 
-    return response.status(200).send({ message: "Journey associated" });
+    return response.status(201).send();
   } catch (error) {
     next(error);
   }

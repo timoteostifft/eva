@@ -1,14 +1,17 @@
 // Entities
 import { Entity, EntityRequest } from "@/core/entities/entity";
+import { UUID } from "@/core/entities/uuid";
 
 // Types
 import { Optional } from "@/core/types/optional";
 
+export type UserJourneyStatus = (typeof UserJourney.statuses)[number];
+
 export interface UserJourneyProps extends EntityRequest {
-  user_id: string;
-  journey_id: string;
+  user_id: UUID;
+  journey_id: UUID;
   start: Date;
-  status: "pending" | "completed";
+  status: UserJourneyStatus;
 }
 
 export class UserJourney extends Entity<UserJourneyProps> {
@@ -28,10 +31,16 @@ export class UserJourney extends Entity<UserJourneyProps> {
     return this.props.status;
   }
 
+  get start() {
+    return this.props.start;
+  }
+
   static create(props: Optional<UserJourneyProps, "status">) {
     return new UserJourney({
       ...props,
       status: props.status ?? "pending",
     });
   }
+
+  static readonly statuses = ["pending", "completed"] as const;
 }

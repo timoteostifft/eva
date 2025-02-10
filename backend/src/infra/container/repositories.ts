@@ -2,14 +2,14 @@
 import { AwilixContainer, asClass } from "awilix";
 
 // Repositories
-import { InMemoryUserRepository } from "@/test/repositories/in-memory-user-repository";
-import { InMemoryUserJourneyRepository } from "@/test/repositories/in-memory-user-journey-repository";
-import { InMemoryJourneyRepository } from "@/test/repositories/in-memory-journey-repository";
+import { MongoUserRepository } from "@/infra/database/repositories/mongo-user-repository";
+import { MongoUserJourneyRepository } from "@/infra/database/repositories/mongo-user-journey-repository";
+import { MongoJourneyRepository } from "@/infra/database/repositories/mongo-journey-repository";
 
 export function registerRepositories(container: AwilixContainer) {
   container.register({
-    userRepository: asClass(InMemoryUserRepository).singleton(),
-    userJourneyRepository: asClass(InMemoryUserJourneyRepository).singleton(),
-    journeyRepository: asClass(InMemoryJourneyRepository).singleton(),
+    userRepository: asClass(MongoUserRepository).singleton(),
+    userJourneyRepository: asClass(MongoUserJourneyRepository).singleton(),
+    journeyRepository: asClass(MongoJourneyRepository).singleton(),
   });
 }
