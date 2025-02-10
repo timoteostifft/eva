@@ -1,0 +1,35 @@
+services:
+  database:
+    container_name: evaa-database
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+
+  database-manager:
+    image: mongo-express
+    container_name: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: root
+      ME_CONFIG_MONGODB_URL: mongodb://root:root@evaa-database:27017/
+    ports:
+      - "8081:8081"
+    depends_on:
+      - database
+
+  server:
+    container_name: eva-server
+    network_mode: "host"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/app/src
+    restart: always
+
+volumes:
+  redis:
+    driver: local
