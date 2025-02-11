@@ -9,8 +9,6 @@ import { UserJourneyRepository } from "@/core/repositories/user-journey-reposito
 // Entities
 import { UserJourney } from "@/core/entities/user-journey";
 import { UUID } from "@/core/entities/uuid";
-import { Journey } from "@/core/entities/journey";
-import { User } from "@/core/entities/user";
 
 interface AssociateJourneyRequest {
   journey_id: string;

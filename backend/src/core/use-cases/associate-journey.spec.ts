@@ -50,10 +50,12 @@ describe("Associate Journey", () => {
     });
 
     expect(userJourneyRepository.userJourneys).toHaveLength(1);
-    expect(userJourneyRepository.userJourneys[0].journey_id).toBe(
+    expect(userJourneyRepository.userJourneys[0].journey_id.value).toBe(
       journey.id.value
     );
-    expect(userJourneyRepository.userJourneys[0].user_id).toBe(user.id.value);
+    expect(userJourneyRepository.userJourneys[0].user_id.value).toBe(
+      user.id.value
+    );
     expect(userJourneyRepository.userJourneys[0].created_at).toBeDefined();
     expect(userJourneyRepository.userJourneys[0].created_at).toEqual(start);
   });
