@@ -14,14 +14,45 @@ import { UserModel } from "@/infra/database/schema";
 import { MongoUserMapper } from "@/infra/database/mappers/mongo-user-mapper";
 
 export class MongoUserRepository implements UserRepository {
-  async find({ id }: UserRepositorySearchRequest): Promise<User | null> {
-    const user = await UserModel.findOne({ _id: id });
+  async find({ id, name }: UserRepositorySearchRequest): Promise<User | null> {
+    const user = await UserModel.findOne({
+      $or: [
+        ...(!id ? [{ _id: id }] : []),
+        ...(name
+          ? [
+              { first_name: { $regex: name, $options: "i" } },
+              { last_name: { $regex: name, $options: "i" } },
+            ]
+          : []),
+      ],
+    });
 
     if (!user) {
       return null;
     }
 
     return MongoUserMapper.toDomain(user);
+  }
+
+  async list(
+    { id, name }: UserRepositorySearchRequest,
+    page?: number
+  ): Promise<User[]> {
+    const users = await UserModel.find({
+      $or: [
+        ...(!id ? [] : [{ _id: id }]),
+        ...(name
+          ? [
+              { first_name: { $regex: name, $options: "i" } },
+              { last_name: { $regex: name, $options: "i" } },
+            ]
+          : []),
+      ],
+    })
+      .skip(page ? (page - 1) * 20 : 0)
+      .limit(20);
+
+    return users.map(MongoUserMapper.toDomain);
   }
 
   async create(user: User): Promise<void> {

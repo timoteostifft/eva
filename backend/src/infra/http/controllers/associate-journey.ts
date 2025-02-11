@@ -1,11 +1,9 @@
 // Libraries
+import Joi from "joi";
 import { NextFunction, Request, Response } from "express";
 
 // Use Cases
 import { AssociateJourney } from "@/core/use-cases/associate-journey";
-
-// Schemas
-import Joi from "joi";
 
 // Container
 import { container } from "@/infra/container";
