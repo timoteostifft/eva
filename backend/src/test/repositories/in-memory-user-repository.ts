@@ -32,7 +32,7 @@ export class InMemoryUserRepository implements UserRepository {
     { id, name }: UserRepositorySearchRequest,
     page?: number
   ): Promise<User[]> {
-    let users = this.users.filter((user) =>
+    const users = this.users.filter((user) =>
       Boolean(
         !id ||
           user.id.equals(id) ||
