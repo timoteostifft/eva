@@ -16,15 +16,13 @@ import { MongoUserMapper } from "@/infra/database/mappers/mongo-user-mapper";
 export class MongoUserRepository implements UserRepository {
   async find({ id, name }: UserRepositorySearchRequest): Promise<User | null> {
     const user = await UserModel.findOne({
-      $or: [
-        ...(!id ? [{ _id: id }] : []),
-        ...(name
-          ? [
-              { first_name: { $regex: name, $options: "i" } },
-              { last_name: { $regex: name, $options: "i" } },
-            ]
-          : []),
-      ],
+      ...(id && { _id: id }),
+      ...(name && {
+        $or: [
+          { first_name: { $regex: name, $options: "i" } },
+          { last_name: { $regex: name, $options: "i" } },
+        ],
+      }),
     });
 
     if (!user) {
@@ -39,15 +37,13 @@ export class MongoUserRepository implements UserRepository {
     page?: number
   ): Promise<User[]> {
     const users = await UserModel.find({
-      $or: [
-        ...(!id ? [] : [{ _id: id }]),
-        ...(name
-          ? [
-              { first_name: { $regex: name, $options: "i" } },
-              { last_name: { $regex: name, $options: "i" } },
-            ]
-          : []),
-      ],
+      ...(id && { _id: id }),
+      ...(name && {
+        $or: [
+          { first_name: { $regex: name, $options: "i" } },
+          { last_name: { $regex: name, $options: "i" } },
+        ],
+      }),
     })
       .skip(page ? (page - 1) * 20 : 0)
       .limit(20);
