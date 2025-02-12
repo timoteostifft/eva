@@ -28,11 +28,16 @@ export class MongoJourneyRepository implements JourneyRepository {
     return MongoJourneyMapper.toDomain(journey);
   }
 
-  async list({ id, name }: JourneyRepositorySearchRequest): Promise<Journey[]> {
+  async list(
+    { id, name }: JourneyRepositorySearchRequest,
+    page?: number
+  ): Promise<Journey[]> {
     const journeys = await JourneyModel.find({
       ...(id && { _id: id }),
       ...(name && { name: { $regex: name, $options: "i" } }),
-    });
+    })
+      .skip(page ? (page - 1) * 20 : 0)
+      .limit(20);
 
     return journeys.map(MongoJourneyMapper.toDomain);
   }
