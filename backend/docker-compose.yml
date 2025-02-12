@@ -1,6 +1,6 @@
 services:
   database:
-    container_name: evaa-database
+    container_name: eva-database
     image: mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -9,16 +9,22 @@ services:
       - "27017:27017"
 
   database-manager:
+    container_name: eva-database-manager
     image: mongo-express
-    container_name: mongo-express
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: root
-      ME_CONFIG_MONGODB_URL: mongodb://root:root@evaa-database:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://root:root@eva-database:27017/
     ports:
       - "8081:8081"
     depends_on:
       - database
+
+  tasks-queue:
+    container_name: eva-queue
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
 
   server:
     container_name: eva-server
@@ -29,6 +35,9 @@ services:
     volumes:
       - ./src:/app/src
     restart: always
+    depends_on:
+      - database
+      - tasks-queue
 
 volumes:
   redis:

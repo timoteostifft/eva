@@ -17,7 +17,7 @@ export class MongoUserJourneyMapper {
       user_id: new UUID(raw.user_id),
       journey_id: new UUID(raw.journey_id),
       status: raw.status as UserJourneyStatus,
-      start: raw.start,
+      start_at: raw.start_at,
       created_at: raw.created_at,
       updated_at: raw.updated_at,
     });
@@ -29,7 +29,7 @@ export class MongoUserJourneyMapper {
       user_id: userJourney.user_id.value,
       journey_id: userJourney.journey_id.value,
       status: userJourney.status,
-      start: userJourney.start,
+      start_at: userJourney.start_at,
       created_at: userJourney.created_at,
       updated_at: userJourney.updated_at,
     };

@@ -18,11 +18,17 @@ export function registerUseCases(container: AwilixContainer) {
       ({ journeyRepository }) => new ListJourneys(journeyRepository)
     ).singleton(),
     associateJourney: asFunction(
-      ({ journeyRepository, userRepository, userJourneyRepository }) =>
+      ({
+        journeyRepository,
+        userRepository,
+        userJourneyRepository,
+        scheduler,
+      }) =>
         new AssociateJourney(
           journeyRepository,
           userRepository,
-          userJourneyRepository
+          userJourneyRepository,
+          scheduler
         )
     ).singleton(),
   });

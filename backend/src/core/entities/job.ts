@@ -17,6 +17,10 @@ export class Job extends Entity<JobProps> {
     return this.props.params;
   }
 
+  get run_at() {
+    return this.props.run_at;
+  }
+
   static create(props: JobProps) {
     return new Job(props);
   }

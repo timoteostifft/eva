@@ -76,7 +76,7 @@ export const UserJourney = new mongo.Schema({
     type: String,
     required: true,
   },
-  start: {
+  start_at: {
     type: Date,
     required: true,
   },
