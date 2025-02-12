@@ -10,6 +10,7 @@ export type UserJourneyStatus = (typeof UserJourney.statuses)[number];
 export interface UserJourneyProps extends EntityRequest {
   user_id: UUID;
   journey_id: UUID;
+  stage: number;
   start_at: Date;
   status: UserJourneyStatus;
 }
@@ -23,18 +24,31 @@ export class UserJourney extends Entity<UserJourneyProps> {
     return this.props.journey_id;
   }
 
+  get stage() {
+    return this.props.stage;
+  }
+
+  set stage(stage: number) {
+    this.props.stage = stage;
+  }
+
   get status() {
     return this.props.status;
+  }
+
+  set status(status: UserJourneyStatus) {
+    this.props.status = status;
   }
 
   get start_at() {
     return this.props.start_at;
   }
 
-  static create(props: Optional<UserJourneyProps, "status">) {
+  static create(props: Optional<UserJourneyProps, "status" | "stage">) {
     return new UserJourney({
       ...props,
       status: props.status ?? "pending",
+      stage: props.stage ?? 1,
     });
   }
 
