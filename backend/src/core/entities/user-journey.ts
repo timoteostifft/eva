@@ -10,15 +10,11 @@ export type UserJourneyStatus = (typeof UserJourney.statuses)[number];
 export interface UserJourneyProps extends EntityRequest {
   user_id: UUID;
   journey_id: UUID;
-  start: Date;
+  start_at: Date;
   status: UserJourneyStatus;
 }
 
 export class UserJourney extends Entity<UserJourneyProps> {
-  constructor(props: UserJourneyProps) {
-    super(props);
-  }
-
   get user_id() {
     return this.props.user_id;
   }
@@ -31,8 +27,8 @@ export class UserJourney extends Entity<UserJourneyProps> {
     return this.props.status;
   }
 
-  get start() {
-    return this.props.start;
+  get start_at() {
+    return this.props.start_at;
   }
 
   static create(props: Optional<UserJourneyProps, "status">) {

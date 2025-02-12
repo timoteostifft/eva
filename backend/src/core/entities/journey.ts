@@ -7,10 +7,6 @@ export interface JourneyProps extends EntityRequest {
 }
 
 export class Journey extends Entity<JourneyProps> {
-  constructor(props: JourneyProps) {
-    super(props);
-  }
-
   get name() {
     return this.props.name;
   }

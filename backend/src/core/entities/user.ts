@@ -9,10 +9,6 @@ export interface UserProps extends EntityRequest {
 }
 
 export class User extends Entity<UserProps> {
-  constructor(props: UserProps) {
-    super(props);
-  }
-
   get first_name() {
     return this.props.first_name;
   }

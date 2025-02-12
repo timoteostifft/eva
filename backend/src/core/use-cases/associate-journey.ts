@@ -9,21 +9,26 @@ import { UserJourneyRepository } from "@/core/repositories/user-journey-reposito
 // Entities
 import { UserJourney } from "@/core/entities/user-journey";
 import { UUID } from "@/core/entities/uuid";
+import { Job } from "@/core/entities/job";
+
+// Jobs
+import { Scheduler } from "@/core/jobs/scheduler";
 
 interface AssociateJourneyRequest {
   journey_id: string;
   user_id: string;
-  start: Date;
+  start_at: Date;
 }
 
 export class AssociateJourney {
   constructor(
     private journeyRepository: JourneyRepository,
     private userRepository: UserRepository,
-    private userJourneyRepository: UserJourneyRepository
+    private userJourneyRepository: UserJourneyRepository,
+    private scheduler: Scheduler
   ) {}
 
-  async execute({ journey_id, user_id, start }: AssociateJourneyRequest) {
+  async execute({ journey_id, user_id, start_at }: AssociateJourneyRequest) {
     const journey = await this.journeyRepository.find({
       id: journey_id,
     });
@@ -41,9 +46,17 @@ export class AssociateJourney {
     const userJourney = UserJourney.create({
       user_id: new UUID(user.id.value),
       journey_id: new UUID(journey.id.value),
-      start,
+      start_at,
     });
 
     await this.userJourneyRepository.create(userJourney);
+
+    const job = Job.create({
+      name: "dispatch-journey",
+      params: { user_journey_id: userJourney.id.value },
+      run_at: start_at,
+    });
+
+    await this.scheduler.schedule(job);
   }
 }

@@ -13,22 +13,28 @@ import { makeUser } from "@/test/factories/make-user";
 // Errors
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found";
 
+// Jobs
+import { MockedScheduler } from "@/test/jobs/mocked-scheduler";
+
 let sut: AssociateJourney;
 
 let journeyRepository: InMemoryJourneyRepository;
 let userRepository: InMemoryUserRepository;
 let userJourneyRepository: InMemoryUserJourneyRepository;
-
+let scheduler: MockedScheduler;
 describe("Associate Journey", () => {
   beforeEach(() => {
     journeyRepository = new InMemoryJourneyRepository();
     userRepository = new InMemoryUserRepository();
     userJourneyRepository = new InMemoryUserJourneyRepository();
 
+    scheduler = new MockedScheduler();
+
     sut = new AssociateJourney(
       journeyRepository,
       userRepository,
-      userJourneyRepository
+      userJourneyRepository,
+      scheduler
     );
   });
 
@@ -46,7 +52,7 @@ describe("Associate Journey", () => {
     await sut.execute({
       journey_id: journey.id.value,
       user_id: user.id.value,
-      start,
+      start_at: start,
     });
 
     expect(userJourneyRepository.userJourneys).toHaveLength(1);
@@ -58,6 +64,11 @@ describe("Associate Journey", () => {
     );
     expect(userJourneyRepository.userJourneys[0].created_at).toBeDefined();
     expect(userJourneyRepository.userJourneys[0].created_at).toEqual(start);
+    expect(scheduler.jobs).toHaveLength(1);
+    expect(scheduler.jobs[0].name).toBe("dispatch-journey");
+    expect(scheduler.jobs[0].params).toEqual({
+      user_journey_id: userJourneyRepository.userJourneys[0].id.value,
+    });
   });
 
   it("should not be able to associate a journey to a user that does not exist", async () => {
@@ -70,7 +81,7 @@ describe("Associate Journey", () => {
       sut.execute({
         journey_id: journey.id.value,
         user_id: user.id.value,
-        start: new Date(),
+        start_at: new Date(),
       })
     ).rejects.toThrow(ResourceNotFoundError);
   });
@@ -85,7 +96,7 @@ describe("Associate Journey", () => {
       sut.execute({
         journey_id: journey.id.value,
         user_id: user.id.value,
-        start: new Date(),
+        start_at: new Date(),
       })
     ).rejects.toThrow(ResourceNotFoundError);
   });

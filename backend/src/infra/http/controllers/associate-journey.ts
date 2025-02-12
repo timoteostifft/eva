@@ -11,7 +11,7 @@ import { container } from "@/infra/container";
 export const associateJourneySchema = Joi.object({
   journey_id: Joi.string().uuid().required(),
   user_id: Joi.string().uuid().required(),
-  start: Joi.date().required(),
+  start_at: Joi.date().required(),
 });
 
 export async function associateJourney(
