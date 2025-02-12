@@ -1,5 +1,9 @@
+// Environment
+import { env } from "@/infra/env";
+
+// Libraries
 import mongoose from "mongoose";
 
 export const mongo = new mongoose.Mongoose();
 
-mongo.connect(`mongodb://root:root@localhost:27017`);
+mongo.connect(env.DATABASE_URL);
