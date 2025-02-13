@@ -6,6 +6,6 @@ export interface TemplateRepositorySearchRequest {
 }
 
 export interface TemplateRepository {
-  find(props: TemplateRepositorySearchRequest): Promise<Template | null>;
+  find(filters: TemplateRepositorySearchRequest): Promise<Template | null>;
   create(template: Template): Promise<void>;
 }

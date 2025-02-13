@@ -29,6 +29,8 @@ export async function handler(
     });
   }
 
+  console.error(error);
+
   return response
     .status(500)
     .send({ message: "💥 Ocorreu um erro interno", code: "internal-error" });
