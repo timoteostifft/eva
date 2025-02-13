@@ -22,6 +22,7 @@ let journeyRepository: InMemoryJourneyRepository;
 let userRepository: InMemoryUserRepository;
 let userJourneyRepository: InMemoryUserJourneyRepository;
 let scheduler: MockedScheduler;
+
 describe("Associate Journey", () => {
   beforeEach(() => {
     journeyRepository = new InMemoryJourneyRepository();

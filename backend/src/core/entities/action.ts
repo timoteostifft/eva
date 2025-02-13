@@ -9,16 +9,20 @@ export type ActionType = (typeof Action.types)[number];
 export interface ActionProps extends EntityRequest {
   journey_id: UUID;
   type: ActionType;
-  priority: number;
+  stage: number;
 }
 
 export class Action extends Entity<ActionProps> {
+  get journey_id() {
+    return this.props.journey_id;
+  }
+
   get type() {
     return this.props.type;
   }
 
-  get priority() {
-    return this.props.priority;
+  get stage() {
+    return this.props.stage;
   }
 
   static create(props: ActionProps) {

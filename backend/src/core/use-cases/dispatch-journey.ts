@@ -4,7 +4,7 @@ import { Message } from "@/core/entities/message";
 
 // Repositories
 import { UserJourneyRepository } from "@/core/repositories/user-journey-repository";
-import { ActionsRepository } from "@/core/repositories/actions-repository";
+import { ActionRepository } from "@/core/repositories/action-repository";
 
 // Errors
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found";
@@ -37,13 +37,13 @@ export class DispatchJourney {
   constructor(
     private userJourneyRepository: UserJourneyRepository,
     private journeyRepository: JourneyRepository,
-    private actionsRepository: ActionsRepository,
+    private actionRepository: ActionRepository,
     private userRepository: UserRepository,
+    private templateRepository: TemplateRepository,
     private scheduler: Scheduler,
     private mailer: Mailer,
     private messageProvider: MessageProvider,
-    private smsProvider: SmsProvider,
-    private templateRepository: TemplateRepository
+    private smsProvider: SmsProvider
   ) {}
 
   async execute({ user_journey_id }: DispatchJourneyRequest) {
@@ -63,13 +63,13 @@ export class DispatchJourney {
       throw new ResourceNotFoundError("journey", userJourney.journey_id.value);
     }
 
-    const action = await this.actionsRepository.find({
+    const action = await this.actionRepository.find({
       journey_id: journey.id.value,
-      priority: userJourney.stage,
+      stage: userJourney.stage,
     });
 
     if (!action) {
-      throw new ResourceNotFoundError("action", journey.id.value);
+      throw new ResourceNotFoundError("action of journey", journey.id.value);
     }
 
     const user = await this.userRepository.find({
@@ -108,9 +108,9 @@ export class DispatchJourney {
     userJourney.stage++;
     userJourney.touch();
 
-    const next = await this.actionsRepository.find({
+    const next = await this.actionRepository.find({
       journey_id: journey.id.value,
-      priority: userJourney.stage,
+      stage: userJourney.stage,
     });
 
     if (!next) {
