@@ -39,8 +39,8 @@ export class BullScheduler implements Scheduler {
       }
     );
 
-    this.worker.on("completed", (jobId) => {
-      console.log(`Job ${jobId} done!`);
+    this.worker.on("completed", (job) => {
+      console.log(`Job ${job.id} done!`);
     });
   }
 

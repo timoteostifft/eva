@@ -105,12 +105,9 @@ export class DispatchJourney {
         break;
     }
 
-    userJourney.stage++;
-    userJourney.touch();
-
     const next = await this.actionRepository.find({
       journey_id: journey.id.value,
-      stage: userJourney.stage,
+      stage: userJourney.stage + 1,
     });
 
     if (!next) {
@@ -118,6 +115,9 @@ export class DispatchJourney {
       userJourney.touch();
       return await this.userJourneyRepository.update(userJourney);
     }
+
+    userJourney.stage++;
+    userJourney.touch();
 
     const job = Job.create({
       name: "dispatch-journey",

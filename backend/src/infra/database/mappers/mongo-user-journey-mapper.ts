@@ -28,6 +28,7 @@ export class MongoUserJourneyMapper {
       _id: userJourney.id.value,
       user_id: userJourney.user_id.value,
       journey_id: userJourney.journey_id.value,
+      stage: userJourney.stage,
       status: userJourney.status,
       start_at: userJourney.start_at,
       created_at: userJourney.created_at,
