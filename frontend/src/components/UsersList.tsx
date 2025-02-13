@@ -64,10 +64,13 @@ const users: User[] = [
 
 export default function UsersList() {
   return (
-    <div className="w-full max-w-[600px]">
+    <div className="w-full bg-white rounded-lg shadow">
       <ul role="list" className="divide-y divide-gray-200">
         {users.map((user) => (
-          <li key={user.email} className="flex justify-between gap-x-6 py-6">
+          <li
+            key={user.email}
+            className="flex justify-between gap-x-6 px-6 py-6"
+          >
             <div className="flex min-w-0 gap-x-4">
               <div className="min-w-0 flex-auto">
                 <p className="text-sm/6 font-semibold text-gray-900">
