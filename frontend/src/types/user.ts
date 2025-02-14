@@ -4,6 +4,6 @@ export type User = {
   last_name: string;
   email: string;
   phone: string;
-  created_at: Date;
-  updated_at: Date | null;
+  created_at: string;
+  updated_at: string;
 };
