@@ -1,20 +1,17 @@
-import { User } from "../types/user";
+import { Journey } from "../types/journey";
 import {
-  InboxIcon,
-  PhoneIcon,
+  DocumentTextIcon,
+  ClockIcon,
   ArrowLeftEndOnRectangleIcon,
   ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
-import { useNavigate } from "react-router-dom";
 
 interface Props {
-  users: User[] | null;
+  journeys: Journey[] | null;
   loading: boolean;
 }
 
-export default function UsersList({ users, loading }: Props) {
-  const navigate = useNavigate();
-
+export default function JourneysList({ journeys, loading }: Props) {
   if (loading) {
     return (
       <div className="w-full bg-white rounded-lg shadow">
@@ -29,11 +26,11 @@ export default function UsersList({ users, loading }: Props) {
                   <div className="h-4 bg-gray-200 rounded w-32 mb-2"></div>
                   <div className="mt-1 flex flex-col gap-y-1">
                     <div className="flex items-center gap-x-1">
-                      <InboxIcon className="h-4 w-4 text-gray-200" />
+                      <DocumentTextIcon className="h-4 w-4 text-gray-200" />
                       <div className="h-3 bg-gray-200 rounded w-40"></div>
                     </div>
                     <div className="flex items-center gap-x-1">
-                      <PhoneIcon className="h-4 w-4 text-gray-200" />
+                      <ClockIcon className="h-4 w-4 text-gray-200" />
                       <div className="h-3 bg-gray-200 rounded w-24"></div>
                     </div>
                   </div>
@@ -52,13 +49,13 @@ export default function UsersList({ users, loading }: Props) {
     );
   }
 
-  if (!users?.length) {
+  if (!journeys?.length) {
     return (
       <div className="w-full bg-white rounded-lg shadow">
         <ul role="list" className="divide-y divide-gray-200">
           <li className="flex flex-col items-center justify-center py-12 text-gray-500">
             <ExclamationCircleIcon className="h-12 w-12 mb-4" />
-            <p className="text-sm">Nenhum usuário encontrado</p>
+            <p className="text-sm">Nenhuma jornada encontrada</p>
           </li>
         </ul>
       </div>
@@ -68,25 +65,27 @@ export default function UsersList({ users, loading }: Props) {
   return (
     <div className="w-full bg-white rounded-lg shadow">
       <ul role="list" className="divide-y divide-gray-200">
-        {users.map((user) => (
+        {journeys.map((journey) => (
           <li
-            key={user.email}
-            className="flex justify-between gap-x-6 px-6 py-6 hover:bg-gray-50 cursor-pointer"
-            onClick={() => navigate(`/users/${user.id}`)}
+            key={journey.id}
+            className="flex justify-between gap-x-6 px-6 py-6"
           >
             <div className="flex min-w-0 gap-x-4">
               <div className="min-w-0 flex-auto">
                 <p className="text-sm/6 font-semibold text-gray-900">
-                  {user.first_name} {user.last_name}
+                  {journey.name}
                 </p>
                 <div className="mt-1 flex flex-col gap-y-1 text-xs/5 text-gray-500">
                   <span className="flex items-center gap-x-1">
-                    <InboxIcon className="h-4 w-4" />
-                    {user.email}
+                    <DocumentTextIcon className="h-4 w-4" />
+                    {journey.description}
                   </span>
                   <span className="flex items-center gap-x-1">
-                    <PhoneIcon className="h-4 w-4" />
-                    {user.phone}
+                    <ClockIcon className="h-4 w-4" />
+                    {Math.floor(journey.interval / (1000 * 60 * 60 * 24))}{" "}
+                    {Math.floor(journey.interval / (1000 * 60 * 60 * 24)) === 1
+                      ? "dia"
+                      : "dias"}
                   </span>
                 </div>
               </div>
@@ -94,8 +93,8 @@ export default function UsersList({ users, loading }: Props) {
             <div className="shrink-0 flex flex-col items-end">
               <p className="mt-1 text-xs/5 text-gray-500 flex items-center gap-x-1">
                 <ArrowLeftEndOnRectangleIcon className="h-4 w-4" />
-                <time dateTime={user.created_at}>
-                  {new Date(user.created_at).toLocaleDateString("pt-BR")}
+                <time dateTime={journey.created_at}>
+                  {new Date(journey.created_at).toLocaleDateString("pt-BR")}
                 </time>
               </p>
             </div>
