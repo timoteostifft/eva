@@ -29,7 +29,7 @@ export class BullScheduler implements Scheduler {
         const handler = mapper[job.name as keyof typeof mapper];
 
         if (!handler) {
-          throw new ResourceNotFoundError("job", job.name);
+          throw new ResourceNotFoundError("Job", job.name);
         }
 
         await handler(job.data);

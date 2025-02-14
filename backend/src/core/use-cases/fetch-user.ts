@@ -15,7 +15,7 @@ export class FetchUser {
     const user = await this.userRepository.find({ id });
 
     if (!user) {
-      throw new ResourceNotFoundError("user", id);
+      throw new ResourceNotFoundError("Usuário", id);
     }
 
     return user;

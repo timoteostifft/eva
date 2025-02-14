@@ -34,13 +34,13 @@ export class AssociateJourney {
     });
 
     if (!journey) {
-      throw new ResourceNotFoundError("journey", journey_id);
+      throw new ResourceNotFoundError("Jornada", journey_id);
     }
 
     const user = await this.userRepository.find({ id: user_id });
 
     if (!user) {
-      throw new ResourceNotFoundError("user", user_id);
+      throw new ResourceNotFoundError("Usuário", user_id);
     }
 
     const userJourney = UserJourney.create({

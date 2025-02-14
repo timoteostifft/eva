@@ -52,7 +52,7 @@ export class DispatchJourney {
     });
 
     if (!userJourney) {
-      throw new ResourceNotFoundError("user journey", user_journey_id);
+      throw new ResourceNotFoundError("Jornada de usuário", user_journey_id);
     }
 
     const journey = await this.journeyRepository.find({
@@ -60,7 +60,7 @@ export class DispatchJourney {
     });
 
     if (!journey) {
-      throw new ResourceNotFoundError("journey", userJourney.journey_id.value);
+      throw new ResourceNotFoundError("Jornada", userJourney.journey_id.value);
     }
 
     const action = await this.actionRepository.find({
@@ -69,7 +69,7 @@ export class DispatchJourney {
     });
 
     if (!action) {
-      throw new ResourceNotFoundError("action of journey", journey.id.value);
+      throw new ResourceNotFoundError("Ação da jornada", journey.id.value);
     }
 
     const user = await this.userRepository.find({
@@ -77,7 +77,7 @@ export class DispatchJourney {
     });
 
     if (!user) {
-      throw new ResourceNotFoundError("user", userJourney.user_id.value);
+      throw new ResourceNotFoundError("Usuário", userJourney.user_id.value);
     }
 
     const template = await this.templateRepository.find({
@@ -85,7 +85,7 @@ export class DispatchJourney {
     });
 
     if (!template) {
-      throw new ResourceNotFoundError("template", action.id.value);
+      throw new ResourceNotFoundError("Template", action.id.value);
     }
 
     const message = Message.create({
