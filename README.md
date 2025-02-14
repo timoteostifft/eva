@@ -55,7 +55,7 @@
 
 ### 📌 Notes
 
-A webapp server in be created [here](http://localhost:5173/)
+A webapp will be created [here](http://localhost:5173/)
 
 A database manager will be created [here](http://localhost:3010/)
 
