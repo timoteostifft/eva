@@ -25,13 +25,19 @@
   cp ./frontend/.env.example frontend/.env && cp ./backend/.env.example backend/.env
 ```
 
-3. Run using docker-compose:
+3. Install local dependencies.
+
+```bash
+  (cd backend && pnpm install) & (cd frontend && pnpm install)
+```
+
+4. Run using docker-compose:
 
 ```bash
   docker-compose up
 ```
 
-4. Run the seed:
+5. Run the seed:
 
 ```bash
   cd backend && pnpm run seed
