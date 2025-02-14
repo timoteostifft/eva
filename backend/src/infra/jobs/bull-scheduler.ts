@@ -40,7 +40,22 @@ export class BullScheduler implements Scheduler {
     );
 
     this.worker.on("completed", (job) => {
-      console.log(`Job ${job.id} done!`);
+      const time = new Date().toISOString();
+      const took = Date.now() - job.timestamp;
+
+      console.log(
+        "%s \x1b[32m%s\x1b[0m: \x1b[36m%s\x1b[0m",
+        `[${time}]`,
+        "INFO",
+        "job finished",
+        {
+          job_id: job.id,
+          name: job.name,
+          data: job.data,
+          tries: job.attemptsMade,
+          took: `${took}ms`,
+        }
+      );
     });
   }
 
