@@ -6,6 +6,11 @@ export interface Request {
   data?: Record<string, unknown> | string;
 }
 
+export interface ApiError {
+  message: string;
+  code: string;
+}
+
 const config: CreateAxiosDefaults = {
   baseURL: import.meta.env.VITE_API_URL,
   headers: { "Content-Type": "application/json" },
@@ -29,7 +34,7 @@ export class Api {
       return data;
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
-        return error.response.data;
+        throw error.response.data as ApiError;
       }
 
       throw error;

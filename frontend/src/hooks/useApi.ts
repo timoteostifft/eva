@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { api, Request } from "../services/api";
+import { api, Request, ApiError } from "../services/api";
 
 export function useApi<T>(request: Request) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<ApiError | null>(null);
 
   const fetch = async () => {
     setLoading(true);
@@ -13,7 +13,7 @@ export function useApi<T>(request: Request) {
       const data = await api.send<T>(request);
       setData(data);
     } catch (err) {
-      setError(err instanceof Error ? err : new Error("Erro ao buscar dados"));
+      setError(err as ApiError);
     } finally {
       setLoading(false);
     }
