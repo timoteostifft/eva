@@ -3,9 +3,9 @@ import {
   InboxIcon,
   PhoneIcon,
   ArrowLeftEndOnRectangleIcon,
-  UserGroupIcon,
   ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   users: User[] | null;
@@ -13,6 +13,8 @@ interface Props {
 }
 
 export default function UsersList({ users, loading }: Props) {
+  const navigate = useNavigate();
+
   if (loading) {
     return (
       <div className="w-full bg-white rounded-lg shadow">
@@ -69,7 +71,8 @@ export default function UsersList({ users, loading }: Props) {
         {users.map((user) => (
           <li
             key={user.email}
-            className="flex justify-between gap-x-6 px-6 py-6"
+            className="flex justify-between gap-x-6 px-6 py-6 hover:bg-gray-50 cursor-pointer"
+            onClick={() => navigate(user.id)}
           >
             <div className="flex min-w-0 gap-x-4">
               <div className="min-w-0 flex-auto">

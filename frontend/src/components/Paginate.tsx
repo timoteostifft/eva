@@ -8,7 +8,7 @@ interface PaginateProps {
 
 export const Paginate = ({ current, onChange, length }: PaginateProps) => {
   return (
-    <div className="sticky bottom-4 py-2 flex items-center gap-4 justify-center">
+    <div className="sticky bottom-4 py-2 inline-flex items-center gap-4 justify-center rounded-lg mx-auto">
       <button
         onClick={() => onChange(current - 1)}
         className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
