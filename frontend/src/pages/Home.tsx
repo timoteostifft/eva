@@ -25,7 +25,9 @@ export default function Home() {
       <h2 className="text-2xl font-bold text-gray-800">Usuários</h2>
       <Search value={search} onChange={setSearch} />
       <UsersList users={data} loading={loading} />
-      <Paginate current={page} onChange={setPage} />
+      {data && (
+        <Paginate current={page} onChange={setPage} length={data.length} />
+      )}
     </div>
   );
 }
