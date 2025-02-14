@@ -34,7 +34,7 @@
 4. Run using docker-compose:
 
 ```bash
-  docker-compose up
+  docker-compose up --build
 ```
 
 5. Run the seed:
