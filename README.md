@@ -55,6 +55,8 @@
 
 ### 📌 Notes
 
-A database manager will be created [here](http://localhost:3010/).
+A webapp server in be created [here](http://localhost:5173/)
 
-Once a job is completed, it shall be displayed in the server terminal.
+A database manager will be created [here](http://localhost:3010/)
+
+Once a job is completed, it shall be displayed in the server terminal
