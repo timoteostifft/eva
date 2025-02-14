@@ -53,7 +53,7 @@ export default function User() {
   };
 
   return (
-    <div className="px-20 pt-10 flex flex-col min-h-screen max-w-[800px] mx-auto gap-y-4">
+    <div className="px-4 pt-10 flex flex-col min-h-screen max-w-[800px] mx-auto gap-y-4">
       <h2 className="text-2xl font-bold text-gray-800">Usuário</h2>
       <UserInfo data={userData} loading={userLoading} error={userError} />
 

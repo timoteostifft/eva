@@ -2,6 +2,7 @@ import { useApi } from "../hooks/useApi";
 import { Journey } from "../types/journey";
 import { User } from "../types/user";
 import { useState } from "react";
+import { toast } from "../services/toast";
 
 interface ConfirmationModalProps {
   journey: Journey;
@@ -17,7 +18,7 @@ export function ConfirmationModal({
   const [date, setDate] = useState<string>("");
   const [time, setTime] = useState<string>("");
 
-  const { fetch, loading } = useApi({
+  const { fetch, loading, error } = useApi({
     method: "POST",
     endpoint: `/user-journey`,
     data: {
@@ -27,8 +28,16 @@ export function ConfirmationModal({
     },
   });
 
-  const handleConfirm = () => {
-    fetch();
+  const handleConfirm = async () => {
+    await fetch();
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+
+    toast.success("Jornada associada com sucesso!");
+
     onChange();
   };
 

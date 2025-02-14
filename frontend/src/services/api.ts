@@ -34,6 +34,7 @@ export class Api {
       return data;
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
+        console.log(error.response.data);
         throw error.response.data as ApiError;
       }
 

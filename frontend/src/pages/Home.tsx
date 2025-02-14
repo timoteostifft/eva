@@ -21,7 +21,7 @@ export default function Home() {
   }, [debounced, page]);
 
   return (
-    <div className="px-20 pt-10 flex flex-col min-h-screen max-w-[800px] mx-auto gap-y-4">
+    <div className="px-4 pt-10 flex flex-col min-h-screen max-w-[800px] mx-auto gap-y-4">
       <h2 className="text-2xl font-bold text-gray-800">Usuários</h2>
       <Search value={search} onChange={setSearch} />
       <UsersList users={data} loading={loading} />
