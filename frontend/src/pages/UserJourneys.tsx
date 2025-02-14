@@ -8,9 +8,17 @@ import { Journey } from "../types/journey";
 import JourneysList from "../components/JourneysList";
 import { useDebounce } from "../hooks/useDebounce";
 import { Paginate } from "../components/Paginate";
+import { ConfirmationModal } from "../components/ConfirmationModal";
 
 export default function User() {
   const { id } = useParams();
+
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [selectedJourney, setSelectedJourney] = useState<Journey | null>(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const debounced = useDebounce(search, 500);
 
   const {
     data: userData,
@@ -22,13 +30,6 @@ export default function User() {
     endpoint: `/users/${id}`,
   });
 
-  useEffect(() => {
-    userFetch();
-  }, [id]);
-
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
-
   const {
     data: journeysData,
     loading: journeysLoading,
@@ -38,11 +39,18 @@ export default function User() {
     endpoint: `/journeys?page=${page}${search ? `&name=${search}` : ""}`,
   });
 
-  const debounced = useDebounce(search, 500);
+  useEffect(() => {
+    userFetch();
+  }, [id]);
 
   useEffect(() => {
     journeysFetch();
   }, [debounced, page]);
+
+  const handleJourneyClick = (journey: Journey) => {
+    setSelectedJourney(journey);
+    setShowModal(true);
+  };
 
   return (
     <div className="px-20 pt-10 flex flex-col min-h-screen max-w-[800px] mx-auto gap-y-4">
@@ -51,13 +59,25 @@ export default function User() {
 
       <h2 className="text-2xl font-bold text-gray-800 mt-4">Jornadas</h2>
       <Search value={search} onChange={setSearch} />
-      <JourneysList journeys={journeysData} loading={journeysLoading} />
+      <JourneysList
+        journeys={journeysData}
+        loading={journeysLoading}
+        onClick={handleJourneyClick}
+      />
 
       {journeysData && (
         <Paginate
           current={page}
           onChange={setPage}
           length={journeysData.length}
+        />
+      )}
+
+      {userData && selectedJourney && showModal && (
+        <ConfirmationModal
+          journey={selectedJourney}
+          user={userData}
+          onChange={() => setShowModal(false)}
         />
       )}
     </div>

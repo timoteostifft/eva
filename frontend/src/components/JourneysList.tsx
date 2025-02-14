@@ -6,12 +6,17 @@ import {
   ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
 
-interface Props {
+interface JourneysListProps {
   journeys: Journey[] | null;
   loading: boolean;
+  onClick: (journey: Journey) => void;
 }
 
-export default function JourneysList({ journeys, loading }: Props) {
+export default function JourneysList({
+  journeys,
+  loading,
+  onClick,
+}: JourneysListProps) {
   if (loading) {
     return (
       <div className="w-full bg-white rounded-lg shadow">
@@ -68,7 +73,8 @@ export default function JourneysList({ journeys, loading }: Props) {
         {journeys.map((journey) => (
           <li
             key={journey.id}
-            className="flex justify-between gap-x-6 px-6 py-6"
+            className="flex justify-between gap-x-6 px-6 py-6 cursor-pointer hover:bg-gray-50"
+            onClick={() => onClick(journey)}
           >
             <div className="flex min-w-0 gap-x-4">
               <div className="min-w-0 flex-auto">
