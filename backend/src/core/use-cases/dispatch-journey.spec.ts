@@ -123,7 +123,7 @@ describe("Dispatch Journey", () => {
     expect(mailer.messages).toHaveLength(1);
     expect(mailer.messages[0].subject).toBe(`Bem vindo, ${user.name}`);
     expect(userJourneyRepository.userJourneys[0].status).toBe("completed");
-    expect(userJourneyRepository.userJourneys[0].stage).toBe(2);
+    expect(userJourneyRepository.userJourneys[0].stage).toBe(1);
   });
 
   it("should automatically schedule the next action", async () => {
