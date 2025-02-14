@@ -1,0 +1,45 @@
+services:
+  database:
+    extends:
+      file: ./backend/docker-compose.yml
+      service: database
+
+  database-manager:
+    extends:
+      file: ./backend/docker-compose.yml
+      service: database-manager
+
+  tasks-queue:
+    extends:
+      file: ./backend/docker-compose.yml
+      service: tasks-queue
+
+  backend:
+    container_name: eva-server
+    extends:
+      file: ./backend/docker-compose.yml
+      service: server
+    ports:
+      - "3333:3333"
+
+  frontend:
+    container_name: eva-app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend/src:/app/frontend/src
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_HOST=0.0.0.0
+    depends_on:
+      - backend
+
+volumes:
+  redis:
+    driver: local
+
+networks:
+  default:
+    name: eva-network
