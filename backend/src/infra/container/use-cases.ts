@@ -6,7 +6,7 @@ import { ListUsers } from "@/core/use-cases/list-users";
 import { ListJourneys } from "@/core/use-cases/list-journeys";
 import { AssociateJourney } from "@/core/use-cases/associate-journey";
 import { DispatchJourney } from "@/core/use-cases/dispatch-journey";
-
+import { FetchUser } from "@/core/use-cases/fetch-user";
 export function registerUseCases(container: AwilixContainer) {
   container.register({
     listUsers: asFunction(
@@ -53,6 +53,9 @@ export function registerUseCases(container: AwilixContainer) {
           messageProvider,
           smsProvider
         )
+    ).singleton(),
+    fetchUser: asFunction(
+      ({ userRepository }) => new FetchUser(userRepository)
     ).singleton(),
   });
 }
