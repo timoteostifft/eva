@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { api, Request } from "../services/api";
 
 export function useApi<T>(request: Request) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+
+  const ref = useRef(false);
 
   const fetch = async () => {
     setLoading(true);
@@ -20,7 +22,11 @@ export function useApi<T>(request: Request) {
   };
 
   useEffect(() => {
+    if (ref.current) return;
+
     fetch();
+
+    ref.current = true;
   }, []);
 
   return { data, loading, error, fetch };
