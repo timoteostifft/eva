@@ -59,4 +59,6 @@ A webapp server in be created [here](http://localhost:5173/)
 
 A database manager will be created [here](http://localhost:3010/)
 
+The API docs can be found [here](http://localhost:3333/docs/)
+
 Once a job is completed, it shall be displayed in the server terminal
